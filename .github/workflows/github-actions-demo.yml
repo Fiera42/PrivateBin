@@ -5,7 +5,7 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout ${{ github.ref }} on ${{ runner.os }} machine
+      - name: "Checkout ${{ github.ref }} on ${{ runner.os }} machine"
         uses: actions/checkout@v4
       - name: "📝 Installing dependencies"
         run: make install
