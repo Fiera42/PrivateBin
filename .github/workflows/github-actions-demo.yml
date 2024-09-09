@@ -10,6 +10,6 @@ jobs:
       - name: "📝 Installing dependencies"
         run: make install
       - name: 🔨 Running tests
-        uses: php-actions/phpunit@v3
+        run: make test
       - name: ✅ Tests completed
         run: echo "Job status is '${{ job.status }}'"
