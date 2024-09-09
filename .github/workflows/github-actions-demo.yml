@@ -12,6 +12,6 @@ jobs:
       - name: 🔨 Running tests
         uses: php-actions/phpunit@v3
         with:
-          php_extensions: gd, sqlite3
+          php_extensions: gd mbstring sqlite3
       - name: ✅ Tests completed
         run: echo "Job status is '${{ job.status }}'"
