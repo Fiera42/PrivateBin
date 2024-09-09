@@ -8,7 +8,7 @@ jobs:
       - name: Checkout ${{ github.ref }} on ${{ runner.os }} machine
         uses: actions/checkout@v4
       - name: "📝 Installing dependencies"
-        uses: php-actions/composer@v6
+        run: make install
       - name: 🔨 Running tests
         uses: php-actions/phpunit@v3
       - name: ✅ Tests completed
