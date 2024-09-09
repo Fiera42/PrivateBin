@@ -8,7 +8,9 @@ jobs:
       - name: Checkout ${{ github.ref }} on ${{ runner.os }} machine
         uses: actions/checkout@v4
       - name: "📝 Installing dependencies"
-        run: make install
+        uses: php-actions/composer@v6
+      - name: Set permissions for test directories
+        run: chmod -R 0700 ./tst
       - name: 🔨 Running tests
         uses: php-actions/phpunit@v3
         with:
