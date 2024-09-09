@@ -10,6 +10,8 @@ jobs:
       - name: "📝 Installing dependencies"
         uses: php-actions/composer@v6
       - name: 🔨 Running tests
-        uses: php-actions/phpunit@v3 php_extensions php-gd
+        uses: php-actions/phpunit@v3
+        with:
+          php_extensions: php-gd
       - name: ✅ Tests completed
         run: echo "Job status is '${{ job.status }}'"
