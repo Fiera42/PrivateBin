@@ -8,12 +8,8 @@ jobs:
       - name: Checkout ${{ github.ref }} on ${{ runner.os }} machine
         uses: actions/checkout@v4
       - name: "📝 Installing dependencies"
-        uses: php-actions/composer@v6
-      - name: Set permissions for test directories
-        run: chmod -R 0700 ./tst
+        run: make install
       - name: 🔨 Running tests
-        uses: php-actions/phpunit@v3
-        with:
-          php_extensions: gd sqlite3 dom json libxml mbstring tokenizer xml xmlwriter zip
+        run: make test
       - name: ✅ Tests completed
         run: echo "Job status is '${{ job.status }}'"
