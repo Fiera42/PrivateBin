@@ -6,9 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout ${{ github.ref }} on ${{ runner.os }} machine
-        run: make install
+        uses: actions/checkout@v4
       - name: "📝 Installing dependencies"
-        uses: php-actions/composer@v6
+        run: make install
       - name: 🔨 Running tests
         uses: php-actions/phpunit@v3
         with:
