@@ -14,5 +14,6 @@ jobs:
         with:
           php_extensions: gd sqlite3 dom json libxml mbstring tokenizer xml xmlwriter zip
           coverage_text: true
+          version: 9.6.11
       - name: ✅ Tests completed
         run: echo "Job status is '${{ job.status }}'"
