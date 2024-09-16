@@ -12,7 +12,7 @@ jobs:
       - name: 🔨 Running tests
         uses: php-actions/phpunit@v3
         with:
-          php_extensions: gd sqlite3 dom json libxml mbstring tokenizer xml xmlwriter zip
+          php_extensions: gd sqlite3 dom json libxml mbstring tokenizer xml xmlwriter zip xdebug
           coverage_text: true
           version: 9.6.11
           php_version: 8.1.2
