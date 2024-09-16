@@ -1,0 +1,17 @@
+name: push CI
+run-name: ${{ github.repository }} CI [${{ github.event_name }}]
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout ${{ github.ref }} on ${{ runner.os }} machine
+        uses: actions/checkout@v4
+      - name: "📝 Installing dependencies"
+        uses: php-actions/composer@v6
+      - name: 🔨 Running tests
+        uses: php-actions/phpunit@v3
+        with:
+          php_extensions: gd sqlite3 dom json libxml mbstring tokenizer xml xmlwriter zip
+      - name: ✅ Tests completed
+        run: echo "Job status is '${{ job.status }}'"
