@@ -15,15 +15,10 @@ jobs:
         uses: php-actions/phpunit@v3
         with:
           php_extensions: gd sqlite3 dom json libxml mbstring tokenizer xml xmlwriter zip xdebug
+          coverage_text: true
           coverage_cobertura: true
           version: 9.6.11
       - run: ls
       - run: ls log
-      - name: ✅ Exporting test results
-        uses: irongut/CodeCoverageSummary@v1.3.0
-        with:
-          filename: log/cobertura.xml
-          badge: true
-          format: markdown
-          output: both
+      
       
