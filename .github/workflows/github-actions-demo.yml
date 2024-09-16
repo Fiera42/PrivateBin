@@ -18,7 +18,12 @@ jobs:
           coverage_text: true
           coverage_cobertura: true
           version: 9.6.11
-      - run: ls
-      - run: ls log
-      
+      - run: find . -type f
+      - name: ✅ Exporting test results
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: log/cobertura.xml
+          badge: true
+          format: markdown
+          output: both
       
