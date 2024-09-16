@@ -17,7 +17,7 @@ jobs:
           php_extensions: gd sqlite3 dom json libxml mbstring tokenizer xml xmlwriter zip xdebug
           coverage_cobertura: true
           version: 9.6.11
-      - run: find . -name "cobertura.xml" 2>/dev/null
+      - run: ls -la log
       - name: ✅ Exporting test results
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
