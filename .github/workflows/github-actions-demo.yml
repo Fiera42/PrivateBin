@@ -1,6 +1,8 @@
 name: push CI
 run-name: ${{ github.repository }} CI [${{ github.event_name }}]
 on: [push]
+env:
+  XDEBUG_MODE: coverage
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
@@ -12,6 +14,9 @@ jobs:
       - name: 🔨 Running tests
         uses: php-actions/phpunit@v3
         with:
-          php_extensions: gd sqlite3 dom json libxml mbstring tokenizer xml xmlwriter zip
+          php_extensions: gd sqlite3 dom json libxml mbstring tokenizer xml xmlwriter zip xdebug
+          coverage_text: true
+          coverage_cobertura: true
+          version: 9.6.11
       - name: ✅ Tests completed
         run: echo "Job status is '${{ job.status }}'"
