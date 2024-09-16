@@ -8,8 +8,10 @@ jobs:
       - name: Checkout ${{ github.ref }} on ${{ runner.os }} machine
         uses: actions/checkout@v4
       - name: "📝 Installing dependencies"
-        run: make install
+        uses: php-actions/composer@v6
       - name: 🔨 Running tests
-        run: make test
+        uses: php-actions/phpunit@v3
+        with:
+          php_extensions: gd sqlite3 dom json libxml mbstring tokenizer xml xmlwriter zip
       - name: ✅ Tests completed
         run: echo "Job status is '${{ job.status }}'"
