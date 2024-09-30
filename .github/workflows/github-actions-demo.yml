@@ -42,6 +42,7 @@ jobs:
           grep -E "FILE:|FOUND [0-9]+ ERRORS AND [0-9]+ WARNINGS" phpcs_report.txt > filtered_report.txt
           sed -i 's/FOUND/➡️ &/' filtered_report.txt
           cat filtered_report.txt >> $GITHUB_STEP_SUMMARY
+          cat phpcs_report.txt
       - name: 🔍️ PHP Mess Detector
         if: always()
         uses: php-actions/phpmd@v1
@@ -53,7 +54,10 @@ jobs:
           reportfile: phpmd_report.txt
       - name: 📦️ Exporting phpmd report to action summary
         if: always()
-        run: cat phpmd_report.txt >> $GITHUB_STEP_SUMMARY
+        run: |
+          echo "# PHP Mess Detector report" >> $GITHUB_STEP_SUMMARY
+          cat phpmd_report.txt >> $GITHUB_STEP_SUMMARY
+          cat phpmd_report.txt
       - name: 🔍️ PHP Static Analysis Tool
         if: always()
         uses: php-actions/phpstan@v3
@@ -63,5 +67,8 @@ jobs:
           generate_baseline: phpstan_report.txt
       - name: 📦️ Exporting phpstan report to action summary
         if: always()
-        run: cat phpstan_report.txt >> $GITHUB_STEP_SUMMARY
+        run: |
+          echo "# PHP Static Analysis Tool report" >> $GITHUB_STEP_SUMMARY
+          cat phpstan_report.txt >> $GITHUB_STEP_SUMMARY
+          cat phpstan_report.txt
       
