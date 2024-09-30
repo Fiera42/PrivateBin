@@ -2,10 +2,10 @@
 /**
  * PrivateBin
  *
- * a zero-knowledge paste bin
+ * A zero-knowledge paste bin
  *
- * @link      https://github.com/PrivateBin/PrivateBin
  * @copyright 2012 Sébastien SAUVAGE (sebsauvage.net)
+ * @link      https://github.com/PrivateBin/PrivateBin
  * @license   https://www.opensource.org/licenses/zlib-license.php The zlib/libpng License
  * @version   1.5.1
  */
@@ -23,14 +23,14 @@ use PDO;
 class Configuration
 {
     /**
-     * parsed configuration
+     * Parsed configuration
      *
      * @var array
      */
     private $_configuration;
 
     /**
-     * default configuration
+     * Default configuration
      *
      * @var array
      */
@@ -99,6 +99,37 @@ class Configuration
         ),
     );
 
+    private function getPrivateBinDBDefault() {
+        return array(
+            'dsn' => 'sqlite:' . PATH . 'data' . DIRECTORY_SEPARATOR . 'db.sq3',
+            'tbl' => null,
+            'usr' => null,
+            'pwd' => null,
+            'opt' => array(PDO::ATTR_PERSISTENT => true),
+        );
+    }
+
+    private function getGoogleCloudStorageDefault() {
+        return array(
+            'bucket'     => getenv('PRIVATEBIN_GCS_BUCKET') ? getenv('PRIVATEBIN_GCS_BUCKET') : null,
+            'prefix'     => 'pastes',
+            'uniformacl' => false,
+        );
+    }
+
+    private function getS3StorageDefault() {
+        return array(
+            'region'                  => null,
+            'version'                 => null,
+            'endpoint'                => null,
+            'accesskey'               => null,
+            'secretkey'               => null,
+            'use_path_style_endpoint' => null,
+            'bucket'                  => null,
+            'prefix'                  => '',
+        );
+    }
+
     /**
      * parse configuration file and ensure default configuration values are present
      *
@@ -143,45 +174,25 @@ class Configuration
                     array('Database', 'privatebin_db', 'zerobin_db')
                 )
             ) {
-                $values = array(
-                    'dsn' => 'sqlite:' . PATH . 'data' . DIRECTORY_SEPARATOR . 'db.sq3',
-                    'tbl' => null,
-                    'usr' => null,
-                    'pwd' => null,
-                    'opt' => array(PDO::ATTR_PERSISTENT => true),
-                );
+                $values = $this->getPrivateBinDBDefault();
             } elseif (
                 $section == 'model_options' && in_array(
                     $this->_configuration['model']['class'],
                     array('GoogleCloudStorage')
                 )
             ) {
-                $values = array(
-                    'bucket'     => getenv('PRIVATEBIN_GCS_BUCKET') ? getenv('PRIVATEBIN_GCS_BUCKET') : null,
-                    'prefix'     => 'pastes',
-                    'uniformacl' => false,
-                );
+                $values = $this->getGoogleCloudStorageDefault();
             } elseif (
                 $section == 'model_options' && in_array(
                     $this->_configuration['model']['class'],
                     array('S3Storage')
                 )
             ) {
-                $values = array(
-                    'region'                  => null,
-                    'version'                 => null,
-                    'endpoint'                => null,
-                    'accesskey'               => null,
-                    'secretkey'               => null,
-                    'use_path_style_endpoint' => null,
-                    'bucket'                  => null,
-                    'prefix'                  => '',
-                );
+                $values = $this->getS3StorageDefault();
             }
 
             // "*_options" sections don't require all defaults to be set
-            if (
-                $section !== 'model_options' &&
+            if ($section !== 'model_options' &&
                 ($from = strlen($section) - strlen($opts)) >= 0 &&
                 strpos($section, $opts, $from) !== false
             ) {
