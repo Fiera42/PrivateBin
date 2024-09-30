@@ -29,20 +29,21 @@ jobs:
             echo "# Code coverage report" >> $GITHUB_STEP_SUMMARY
             cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
       - name: 🔍️ PHP Code Sniffer
-        continue-on-error: true
+        if: always()
         uses: php-actions/phpcs@v1
         with:
           php_version: 8.1
           path: ./lib
           report_file: phpcs_report.txt
       - name: 📦️ Exporting phpcs report to action summary
+        if: always()
         run: |
           echo "# PHP Code Sniffer report" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           cat phpcs_report.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
       - name: 🔍️ PHP Mess Detector
-        continue-on-error: true
+        if: always()
         uses: php-actions/phpmd@v1
         with:
           php_version: 8.1
@@ -51,6 +52,7 @@ jobs:
           ruleset: ruleset.xml
           reportfile: phpmd_report.txt
       - name: 📦️ Exporting phpmd report to action summary
+        if: always()
         run: |
           echo "# PHP Mess Detector report" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
@@ -60,12 +62,13 @@ jobs:
           exec 3>&1
           output=$(cat)
       - name: 🔍️ PHP Static Analysis Tool
-        continue-on-error: true
+        if: always()
         uses: php-actions/phpstan@v3
         with:
           php_version: 8.1
           path: ./lib
       - name: 📦️ Exporting phpstan report to action summary
+        if: always()
         run: |
           exec 1>&3 # restore "normal" stdin
           echo "# PHP Static Analysis Tool report" >> $GITHUB_STEP_SUMMARY
