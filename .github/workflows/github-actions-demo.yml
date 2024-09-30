@@ -59,7 +59,6 @@ jobs:
           cat phpmd_report.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           # Capture stdin output because phpstan does not have file export functions
-          exec 3>&1
           output=$(cat)
       - name: 🔍️ PHP Static Analysis Tool
         if: always()
@@ -70,7 +69,6 @@ jobs:
       - name: 📦️ Exporting phpstan report to action summary
         if: always()
         run: |
-          exec 1>&3 # restore "normal" stdin
           echo "# PHP Static Analysis Tool report" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           echo "$output" >> $GITHUB_STEP_SUMMARY
