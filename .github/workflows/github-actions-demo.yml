@@ -67,9 +67,8 @@ jobs:
       - name: 📦️ Exporting phpstan report to action summary
         if: always()
         run: |
-          $(!!) > phpstan_report.txt
           echo "# PHP Static Analysis Tool report" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          cat phpstan_report >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.phpstan.outputs.output_variable }}" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
       
