@@ -39,10 +39,9 @@ jobs:
         if: always()
         run: |
           echo "# PHP Code Sniffer report" >> $GITHUB_STEP_SUMMARY
-          grep -E "FILE:|FOUND [0-9]+ ERRORS AND [0-9]+ WARNINGS" phpcs_report.txt > filtered_report.txt
-          sed -i 's/FOUND/➡️ &/' filtered_report.txt
-          cat filtered_report.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
           cat phpcs_report.txt
+          echo '```' >> $GITHUB_STEP_SUMMARY
       - name: 🔍️ PHP Mess Detector
         if: always()
         uses: php-actions/phpmd@v1
@@ -56,8 +55,9 @@ jobs:
         if: always()
         run: |
           echo "# PHP Mess Detector report" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
           cat phpmd_report.txt >> $GITHUB_STEP_SUMMARY
-          cat phpmd_report.txt
+          echo '```' >> $GITHUB_STEP_SUMMARY
       - name: 🔍️ PHP Static Analysis Tool
         if: always()
         uses: php-actions/phpstan@v3
@@ -69,6 +69,7 @@ jobs:
         if: always()
         run: |
           echo "# PHP Static Analysis Tool report" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
           cat phpstan_report.txt >> $GITHUB_STEP_SUMMARY
-          cat phpstan_report.txt
+          echo '```' >> $GITHUB_STEP_SUMMARY
       
