@@ -59,14 +59,14 @@ jobs:
       - name: 🔍️ PHP Static Analysis Tool
         continue-on-error: true
         uses: php-actions/phpstan@v3
+        id: run_phpstan
         with:
           php_version: 8.1
           path: ./lib
-          generate_baseline: phpstan_report.txt
       - name: 📦️ Exporting phpstan report to action summary
         run: |
           echo "# PHP Static Analysis Tool report" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          cat phpstan_report.txt >> $GITHUB_STEP_SUMMARY
+          echo ${{steps.run_phpstan.outputs.*}} >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
       
