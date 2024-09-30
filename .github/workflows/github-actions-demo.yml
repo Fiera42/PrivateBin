@@ -38,9 +38,10 @@ jobs:
       - name: 📦️ Exporting phpcs report to action summary
         if: always()
         run: |
-            echo "# PHP Code Sniffer report" >> $GITHUB_STEP_SUMMARY
-            grep -E "FILE:|FOUND [0-9]+ ERRORS AND [0-9]+ WARNINGS" phpcs_report.txt > filtered_report.txt
-            cat filtered_report.txt >> $GITHUB_STEP_SUMMARY
+          echo "# PHP Code Sniffer report" >> $GITHUB_STEP_SUMMARY
+          grep -E "FILE:|FOUND [0-9]+ ERRORS AND [0-9]+ WARNINGS" phpcs_report.txt > filtered_report.txt
+          sed -i 's/FOUND/➡️ &/' filtered_report.txt
+          cat filtered_report.txt >> $GITHUB_STEP_SUMMARY
       - name: 🔍️ PHP Mess Detector
         if: always()
         uses: php-actions/phpmd@v1
