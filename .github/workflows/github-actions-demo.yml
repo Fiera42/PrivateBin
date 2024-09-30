@@ -69,6 +69,6 @@ jobs:
         run: |
           echo "# PHP Static Analysis Tool report" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          echo $(!!) >> $GITHUB_STEP_SUMMARY
+          output=$(!!) >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
       
