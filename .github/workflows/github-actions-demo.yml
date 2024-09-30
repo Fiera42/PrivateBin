@@ -7,24 +7,55 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout ${{ github.ref }} on ${{ runner.os }} machine
+      - name: ⬇️ Checkout ${{ github.ref }} on ${{ runner.os }} machine
         uses: actions/checkout@v4
-      - name: 📝 Installing dependencies
+      - name: ⬇️ Installing dependencies
         uses: php-actions/composer@v6
-      - name: 🔨 Running tests
+      - name: 🔍️ Running tests
         uses: php-actions/phpunit@v3
         with:
           php_extensions: gd sqlite3 dom json libxml mbstring tokenizer xml xmlwriter zip xdebug
           version: 9.6.11
           configuration: phpunit.xml
-      - name: 🚀 Generating test logs
+      - name: 🔨 Generating test logs
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
           filename: log/cobertura.xml
           badge: true
           format: markdown
           output: both
-      - name: ✅ Exporting coverage to action summary
+      - name: 📦️ Exporting coverage to action summary
         run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
-      - run : echo bonjour >> $GITHUB_STEP_SUMMARY
+      - name: 🔍️ PHP Code Sniffer
+        if: always()
+        uses: php-actions/phpcs@v1
+        with:
+          php_version: 8.1
+          path: ./lib
+          report_file: phpcs_report.txt
+      - name: 📦️ Exporting phpcs report to action summary
+        if: always()
+        run: cat phpcs_report.txt >> $GITHUB_STEP_SUMMARY
+      - name: 🔍️ PHP Mess Detector
+        if: always()
+        uses: php-actions/phpmd@v1
+        with:
+          php_version: 8.1
+          path: ./lib
+          output: text
+          ruleset: ruleset.xml
+          reportfile: phpmd_report.txt
+      - name: 📦️ Exporting phpmd report to action summary
+        if: always()
+        run: cat phpmd_report.txt >> $GITHUB_STEP_SUMMARY
+      - name: 🔍️ PHP Static Analysis Tool
+        if: always()
+        uses: php-actions/phpstan@v3
+        with:
+          php_version: 8.1
+          path: ./lib
+          generate_baseline: phpstan_report.txt
+      - name: 📦️ Exporting phpstan report to action summary
+        if: always()
+        run: cat phpstan_report.txt >> $GITHUB_STEP_SUMMARY
       
