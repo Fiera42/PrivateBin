@@ -26,4 +26,5 @@ jobs:
           output: both
       - name: ✅ Exporting coverage to action summary
         run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
+      - run : echo bonjour >> $GITHUB_STEP_SUMMARY
       
