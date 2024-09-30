@@ -4,7 +4,8 @@ on: [push]
 env:
   XDEBUG_MODE: coverage
 jobs:
-  Explore-GitHub-Actions:
+  tests:
+    name: tests
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout ${{ github.ref }} on ${{ runner.os }} machine
@@ -60,15 +61,23 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
       - name: 🔍️ PHP Static Analysis Tool
         if: always()
-        id: run_phpstan
         uses: php-actions/phpstan@v3
         with:
           php_version: 8.1
           path: ./lib
+      - name: Get Job ID from GH API
+        id: get-job-id
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          jobs=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id}}/attempts/${{ github.run_attempt }}/jobs)
+          job_id=$(echo $jobs | jq -r '.jobs[] | select(.runner_name=="${{ runner.name }}") | .id')
+          echo "job_id=$job_id" >> $GITHUB_OUTPUT
       - name: 📦️ Exporting phpstan report to action summary
         if: always()
         run: |
           echo "# PHP Static Analysis Tool report" >> $GITHUB_STEP_SUMMARY
           # PHP stan cannot be outputted to a file..
-          echo "[View PHPStan Output](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#step${{ steps.run_phpstan.id }})" >> $GITHUB_STEP_SUMMARY
+          echo "[View PHPStan Output](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/job/${{ steps.get-job-id.outputs.job_id }})" >> $GITHUB_STEP_SUMMARY
+          echo "> Please expand the step "PHP Static Analysis Tool" in the logs to view the details." >> $GITHUB_STEP_SUMMARY
       
