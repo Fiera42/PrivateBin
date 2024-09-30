@@ -25,7 +25,9 @@ jobs:
           format: markdown
           output: both
       - name: 📦️ Exporting coverage to action summary
-        run: cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
+        run: |
+            echo "# Code coverage report" >> $GITHUB_STEP_SUMMARY
+            cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
       - name: 🔍️ PHP Code Sniffer
         if: always()
         uses: php-actions/phpcs@v1
@@ -35,7 +37,10 @@ jobs:
           report_file: phpcs_report.txt
       - name: 📦️ Exporting phpcs report to action summary
         if: always()
-        run: grep -E "FILE:|FOUND [0-9]+ ERRORS AND [0-9]+ WARNINGS" >> $GITHUB_STEP_SUMMARY
+        run: |
+            echo "# PHP Code Sniffer report" >> $GITHUB_STEP_SUMMARY
+            grep -E "FILE:|FOUND [0-9]+ ERRORS AND [0-9]+ WARNINGS" phpcs_report.txt > filtered_report.txt
+            cat filtered_report.txt >> $GITHUB_STEP_SUMMARY
       - name: 🔍️ PHP Mess Detector
         if: always()
         uses: php-actions/phpmd@v1
