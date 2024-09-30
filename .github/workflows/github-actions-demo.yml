@@ -60,7 +60,6 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
       - name: 🔍️ PHP Static Analysis Tool
         if: always()
-        id: run_phpstan
         uses: php-actions/phpstan@v3
         with:
           php_version: 8.1
@@ -69,7 +68,6 @@ jobs:
         if: always()
         run: |
           echo "# PHP Static Analysis Tool report" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          echo "${{ steps.run_phpstan.outputs.output_variable }}" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
+          # PHP stan cannot be outputted to a file..
+          echo "[View PHPStan Output](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}#step${{ steps.run_phpstan.id }})" >> $GITHUB_STEP_SUMMARY
       
