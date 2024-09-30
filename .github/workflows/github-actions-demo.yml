@@ -40,7 +40,7 @@ jobs:
         run: |
           echo "# PHP Code Sniffer report" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          cat phpcs_report.txt
+          cat phpcs_report.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
       - name: 🔍️ PHP Mess Detector
         if: always()
