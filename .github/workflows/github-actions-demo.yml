@@ -58,8 +58,6 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
           cat phpmd_report.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          # Capture stdin output because phpstan does not have file export functions
-          output=$(cat)
       - name: 🔍️ PHP Static Analysis Tool
         if: always()
         uses: php-actions/phpstan@v3
@@ -71,6 +69,6 @@ jobs:
         run: |
           echo "# PHP Static Analysis Tool report" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          echo "$output" >> $GITHUB_STEP_SUMMARY
+          echo $(!!) >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
       
