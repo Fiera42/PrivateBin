@@ -60,6 +60,7 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
       - name: 🔍️ PHP Static Analysis Tool
         if: always()
+        id: run_phpstan
         uses: php-actions/phpstan@v3
         with:
           php_version: 8.1
