@@ -35,7 +35,7 @@ jobs:
           report_file: phpcs_report.txt
       - name: 📦️ Exporting phpcs report to action summary
         if: always()
-        run: cat phpcs_report.txt >> $GITHUB_STEP_SUMMARY
+        run: grep -E "FILE:|FOUND [0-9]+ ERRORS AND [0-9]+ WARNINGS" >> $GITHUB_STEP_SUMMARY
       - name: 🔍️ PHP Mess Detector
         if: always()
         uses: php-actions/phpmd@v1
