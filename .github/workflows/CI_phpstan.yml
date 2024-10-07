@@ -1,10 +1,10 @@
-name: PHPStan Analysis
+name: PHPStan
 run-name: ${{ github.repository }} CI [${{ github.event_name }}]
 on: [push]
 
 jobs:
   phpstan_analysis:
-    name: PHPStan Analysis
+    name: PHPStan
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout ${{ github.ref }} on ${{ runner.os }} machine
@@ -14,6 +14,7 @@ jobs:
       - name: 🔍️ PHPStan Analysis
         run: ./vendor/bin/phpstan analyse ./lib >> phpstan_report.txt
       - name: 📦️ Exporting phpstan report to action summary
+        if: always()
         run: |
           echo "# PHPStan report" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
