@@ -1,0 +1,26 @@
+name: PHP Code Sniffer Analysis
+run-name: ${{ github.repository }} CI [${{ github.event_name }}]
+on: [push]
+
+jobs:
+  phpcs_analysis:
+    name: PHP Code Sniffer Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout ${{ github.ref }} on ${{ runner.os }} machine
+        uses: actions/checkout@v4
+      - name: ⬇️ Installing dependencies
+        uses: php-actions/composer@v6
+      - name: 🔍️ PHP Code Sniffer
+        uses: php-actions/phpcs@v1
+        with:
+          php_version: 8.1
+          path: ./lib
+          report: json
+          report_file: phpcs_report.json
+      - name: 📦️ Exporting phpcs report to action summary
+        run: |
+          echo "# PHP Code Sniffer report" >> $GITHUB_STEP_SUMMARY
+          npm i -g github:10up/phpcs-json-to-md
+          phpcs-json-to-md --path ./phpcs_report.json --output ./phpcs_report.md
+          cat phpcs_report.md >> $GITHUB_STEP_SUMMARY
