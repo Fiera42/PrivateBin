@@ -46,9 +46,12 @@ jobs:
         with:
           php_version: 8.1
           path: ./lib
+          args: ">> phpstan_report.txt"
       - name: 📦️ Exporting phpstan report to action summary
         if: always()
         run: |
-          echo "# PHP Static Analysis Tool report" >> $GITHUB_STEP_SUMMARY
-          echo "php stan report can't be outputted here, please check directly inside the action" >> $GITHUB_STEP_SUMMARY
+          echo "# PHP Stan report" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat phpstan_report.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
       
