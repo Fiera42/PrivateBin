@@ -12,11 +12,4 @@ jobs:
       - name: ⬇️ Installing dependencies
         uses: php-actions/composer@v6
       - name: 🔍️ PHPStan Analysis
-        run: ./vendor/bin/phpstan --error-format=github analyse ./lib >> phpstan_report.txt
-      - name: 📦️ Exporting phpstan report to action summary
-        if: always()
-        run: |
-          echo "# PHPStan report" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          cat phpstan_report.txt >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
+        run: ./vendor/bin/phpstan --error-format=github analyse ./lib
