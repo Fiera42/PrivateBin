@@ -28,7 +28,7 @@ jobs:
           while IFS= read -r line; do
             file=$(echo "$line" | cut -d':' -f1)
             line_number=$(echo "$line" | cut -d':' -f2)
-            type=$(echo "$line" | awk '{print $2}')
-            message=$(echo "$line" | cut -d':' -f3- | sed 's/^ *//g')
+            type=$(echo "$line" | awk '{print $3}')
+            message=$(echo "$line" | sed -E 's/^[^:]*:[^:]*:[^ ]* //')
             echo "| $file | $line_number | $type | $message |" >> $GITHUB_STEP_SUMMARY
           done < phpmd_report.txt
