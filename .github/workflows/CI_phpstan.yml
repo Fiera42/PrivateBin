@@ -1,0 +1,21 @@
+name: PHPStan Analysis
+run-name: ${{ github.repository }} CI [${{ github.event_name }}]
+on: [push]
+
+jobs:
+  phpstan_analysis:
+    name: PHPStan Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout ${{ github.ref }} on ${{ runner.os }} machine
+        uses: actions/checkout@v4
+      - name: ⬇️ Installing dependencies
+        uses: php-actions/composer@v6
+      - name: 🔍️ PHPStan Analysis
+        run: ./vendor/bin/phpstan analyse ./lib >> phpstan_report.txt
+      - name: 📦️ Exporting phpstan report to action summary
+        run: |
+          echo "# PHPStan report" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat phpstan_report.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
