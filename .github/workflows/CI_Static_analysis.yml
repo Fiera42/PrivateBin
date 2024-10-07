@@ -40,13 +40,11 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
           cat phpmd_report.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
+      - name: ⬇️ Adding phpstan to composer dependencies
+        run: composer require --dev phpstan/phpstan
       - name: 🔍️ PHP Static Analysis Tool
         if: always()
-        uses: php-actions/phpstan@v3
-        with:
-          php_version: 8.1
-          path: ./lib
-          args: ">> phpstan_report.txt"
+        run: ./vendor/bin/phpstan analyse ./lib >> phpstan_report.txt
       - name: 📦️ Exporting phpstan report to action summary
         if: always()
         run: |
