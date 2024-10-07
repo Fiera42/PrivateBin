@@ -1,10 +1,10 @@
-name: PHP Code Sniffer Analysis
+name: PHP Code Sniffer
 run-name: ${{ github.repository }} CI [${{ github.event_name }}]
 on: [push]
 
 jobs:
   phpcs_analysis:
-    name: PHP Code Sniffer Analysis
+    name: PHP Code Sniffer
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout ${{ github.ref }} on ${{ runner.os }} machine
@@ -19,6 +19,7 @@ jobs:
           report: json
           report_file: phpcs_report.json
       - name: 📦️ Exporting phpcs report to action summary
+        if: always()
         run: |
           echo "# PHP Code Sniffer report" >> $GITHUB_STEP_SUMMARY
           npm i -g github:10up/phpcs-json-to-md
