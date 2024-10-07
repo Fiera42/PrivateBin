@@ -23,12 +23,11 @@ jobs:
         if: always()
         run: |
           echo "# PHP Mess Detector report" >> $GITHUB_STEP_SUMMARY
-          echo '| File | Line | Type | Message |' >> $GITHUB_STEP_SUMMARY
-          echo '|------|------|------|---------|' >> $GITHUB_STEP_SUMMARY
+          echo '| File and Line | Type | Description |' >> $GITHUB_STEP_SUMMARY
+          echo '|---------------|------|-------------|' >> $GITHUB_STEP_SUMMARY
           while IFS= read -r line; do
-            file=$(echo "$line" | cut -d':' -f1)
-            line_number=$(echo "$line" | cut -d':' -f2)
-            type=$(echo "$line" | awk '{print $3}')
-            message=$(echo "$line" | sed -E 's/^[^:]*:[^:]*:[^ ]* //')
-            echo "| $file | $line_number | $type | $message |" >> $GITHUB_STEP_SUMMARY
+            file_and_line=$(echo "$line" | awk -F'  +' '{print $1}')
+            type=$(echo "$line" | awk -F'  +' '{print $2}')
+            description=$(echo "$line" | awk -F'  +' '{print $3}')
+            echo "| $file_and_line | $type | $description |" >> $GITHUB_STEP_SUMMARY
           done < phpmd_report.txt
