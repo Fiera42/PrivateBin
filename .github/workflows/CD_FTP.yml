@@ -1,3 +1,4 @@
+name: Deploy
 on:
   workflow_run:
     workflows: [CI_Tests]
@@ -21,6 +22,6 @@ jobs:
           server: ${{ secrets.ip }}
           username: ${{ secrets.username }}
           password: ${{ secrets.ftp_password }}
-          server-dir: /www
+          server-dir: /www/
           exclude: |
                   **/.git*
