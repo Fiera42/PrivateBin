@@ -1,10 +1,10 @@
-name: PHP Mess Detector Analysis
+name: PHP Mess Detector
 run-name: ${{ github.repository }} CI [${{ github.event_name }}]
 on: [push]
 
 jobs:
   phpmd_analysis:
-    name: PHP Mess Detector Analysis
+    name: PHP Mess Detector
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout ${{ github.ref }} on ${{ runner.os }} machine
@@ -20,6 +20,7 @@ jobs:
           ruleset: ruleset.xml
           reportfile: phpmd_report.txt
       - name: 📦️ Exporting phpmd report to action summary
+        if: always()
         run: |
           echo "# PHP Mess Detector report" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
