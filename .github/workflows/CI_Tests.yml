@@ -1,10 +1,9 @@
-name: push CI
+name: CI_Tests
 run-name: ${{ github.repository }} CI [${{ github.event_name }}]
 on: [push]
 env:
   XDEBUG_MODE: coverage
 jobs:
-  # --------------------------------------------------- TESTS JOB
   tests:
     name: tests
     runs-on: ubuntu-latest
@@ -30,54 +29,4 @@ jobs:
         run: |
             echo "# Code coverage report" >> $GITHUB_STEP_SUMMARY
             cat code-coverage-results.md >> $GITHUB_STEP_SUMMARY
-  # --------------------------------------------------- STATIC ANALYSIS JOB
-  static_analysis:
-    name: static analysis
-    runs-on: ubuntu-latest
-    steps:
-      - name: ⬇️ Checkout ${{ github.ref }} on ${{ runner.os }} machine
-        uses: actions/checkout@v4
-      - name: ⬇️ Installing dependencies
-        uses: php-actions/composer@v6
-      - name: 🔍️ PHP Code Sniffer
-        if: always()
-        uses: php-actions/phpcs@v1
-        with:
-          php_version: 8.1
-          path: ./lib
-          report_file: phpcs_report.txt
-      - name: 📦️ Exporting phpcs report to action summary
-        if: always()
-        run: |
-          echo "# PHP Code Sniffer report" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          cat phpcs_report.txt >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-      - name: 🔍️ PHP Mess Detector
-        if: always()
-        uses: php-actions/phpmd@v1
-        with:
-          php_version: 8.1
-          path: ./lib
-          output: text
-          ruleset: ruleset.xml
-          reportfile: phpmd_report.txt
-      - name: 📦️ Exporting phpmd report to action summary
-        if: always()
-        run: |
-          echo "# PHP Mess Detector report" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          cat phpmd_report.txt >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-      - name: 🔍️ PHP Static Analysis Tool
-        if: always()
-        uses: php-actions/phpstan@v3
-        with:
-          php_version: 8.1
-          path: ./lib
-      - name: 📦️ Exporting phpstan report to action summary
-        if: always()
-        run: |
-          echo "# PHP Static Analysis Tool report" >> $GITHUB_STEP_SUMMARY
-          echo "php stan report can't be outputted here, please check directly inside the action" >> $GITHUB_STEP_SUMMARY
-      
+
